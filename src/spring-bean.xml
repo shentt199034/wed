@@ -21,4 +21,10 @@ http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
 	<bean id="ps" class="cn.hw.oa.service.Productservice">
 		<property name="Productdao" ref="pd" />
 	</bean>
+	<bean id="cd" class="cn.hw.oa.dao.Categorydao">
+		<property name="JdbcTemplate" ref="jt" />
+	</bean>
+	<bean id="cs" class="cn.hw.oa.service.Categoryservice">
+		<property name="Categorydao" ref="cd" />
+	</bean>
 </beans>
