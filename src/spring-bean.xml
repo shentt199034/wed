@@ -18,4 +18,7 @@ http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
 		<!-- ref="jt" 上面名称为id的那个组件 -->
 		<property name="jdbcTemplate" ref="jt" />
 	</bean>
+	<bean id="ps" class="cn.hw.oa.service.Productservice">
+		<property name="Productdao" ref="pd" />
+	</bean>
 </beans>
