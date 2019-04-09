@@ -2,6 +2,7 @@ package cn.hw.oa.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -47,7 +48,7 @@ public class Productservlet extends HttpServlet {
 
 		} else if (type.equals("query")) {
 			String keyword = request.getParameter("keyword");
-			ArrayList<Product> arraylist = productService.queryByName(keyword);
+			List<Product> arraylist = productService.queryByName(keyword);
 			request.setAttribute("arraylist", arraylist);
 			// 请求的转发，系统默认添加工程名
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/query.jsp");

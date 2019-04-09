@@ -4,6 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 // 此类是数据库连接的工具类,主要用来连接数据库，和关闭连接
 public class JdbcUtils {
 
@@ -41,10 +46,15 @@ public class JdbcUtils {
 	}
 	// 编写一个main方法测试数据库的连接
 	public static void main(String[] args) {
-		Connection con1 = JdbcUtils.getConnection();
-		Connection con2 = JdbcUtils.getConnection();
-		System.out.println(con1);
-		System.out.println(con2);
+		ApplicationContext context = new ClassPathXmlApplicationContext("spring-bean.xml");
+		DataSource dataSource = context.getBean("dataSource", DataSource.class);
+		try {
+			System.out.println(dataSource.getConnection());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
+

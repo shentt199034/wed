@@ -5,93 +5,93 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 import model.Product;
 
 
-public class Productdao extends BaseDao{
+public class Productdao{
+	
+	private JdbcTemplate jdbcTemplate;
+	
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 	public void save(Product product) {
 		String sql="insert into product(name,price,remark) value(?,?,?)";
-		super.update(sql,  new Object[] {product.getName(),product.getPrice(),product.getRemark() });
+		jdbcTemplate.update(sql,  new Object[] {product.getName(),product.getPrice(),product.getRemark() });
 	
 	}
 
 	public Product getById(int id) {
-		Connection conn = JdbcUtils.getConnection();
-		try {
-			PreparedStatement pre = conn.prepareStatement("select * from product where id = ?");
-			pre.setInt(1, id);
-			ResultSet rs = pre.executeQuery();
-			Product product = null;
-			if (rs.next()) {
-			    product = new Product();
+		String sql="select * from product where id = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[] {id}, new RowMapper<Product>() {
+
+			@Override
+			public Product mapRow(ResultSet rs, int arg1) throws SQLException {
+				// TODO Auto-generated method stub
+				Product product = new Product();
 				product.setId(rs.getInt("id"));
 				product.setName(rs.getString("name"));
 				product.setPrice(rs.getDouble("price"));
 				product.setRemark(rs.getString("remark"));
 				product.setDate(rs.getDate("date"));
+				return product;
 			}
-			return product;
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}finally {
-			System.out.println("关闭");
-			JdbcUtils.close(conn);
-		}
+			});
+
 	}
-	public ArrayList<Product> queryByName(String name) {
-		Connection conn = JdbcUtils.getConnection();
-		try {
-			PreparedStatement pre = conn.prepareStatement("select * from product where name like ?");
-			pre.setString(1, "%"+name+"%");
-			ResultSet rs = pre.executeQuery();
-			ArrayList<Product> prolist = new ArrayList<Product>();
-			while (rs.next()) {
-				Product product =new Product();
-				//product = new Product();
+	public List<Product> queryByName(String name) {
+		String sql="select * from product where name like ?";
+        return jdbcTemplate.query(sql,new Object[] {"%"+name+"%"}, new RowMapper<Product>() {
+
+			@Override
+			public Product mapRow(ResultSet rs, int arg1) throws SQLException {
+				Product product = new Product();
 				product.setId(rs.getInt("id"));
 				product.setName(rs.getString("name"));
 				product.setPrice(rs.getDouble("price"));
 				product.setRemark(rs.getString("remark"));
 				product.setDate(rs.getDate("date"));
-				prolist.add(product);
+				return product;
 			}
-			return prolist;
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}finally {
-			System.out.println("关闭");
-			JdbcUtils.close(conn);
-		}
+        	
+        });
 	}
 
 	public void delete(int id) {
 	String sql="delete from product where id = ?";
-	super.update(sql, new Object[] {id});
+	jdbcTemplate.update(sql, new Object[] {id});
 	}
 	public void update(Product product) {
 		String sql="update product set name=?,price=?,remark=? where id=?";
-		super.update(sql,  new Object[] {product.getName(),product.getPrice(),product.getRemark(),product.getId() });
+		jdbcTemplate.update(sql,  new Object[] {product.getName(),product.getPrice(),product.getRemark(),product.getId() });
 	}
 
 
 	public static void main(String[] args) {
-		Productdao dao1 = new Productdao();
-		Productdao dao2 = new Productdao();
+		// new的对象并不是通过spring框架创建,因此没有依赖注入的功能, 因此只能通过Spring创建
+		// ProductDao productDao = new ProductDao();
+		ApplicationContext context = new ClassPathXmlApplicationContext("spring-bean.xml");
+		// 通过id获取相应的类型，并且创建对象(通过spring配置的bean才拥有依赖注入的功能)
+		Productdao productdao = context.getBean("pd", Productdao.class);
+		// 项目中所有的model不需要交给spring管理,因为这些值是从前端传入,而且是多例模式
 		Product product = new Product();
-		product.setName("华为手机");
-		product.setPrice(6999);
-		product.setRemark("测试成功");
-		product.setId(17);
-		dao1.save(product);
-		dao2.delete(2);
-		dao1.update(product);
-		System.out.println(dao1.getById(2));
-		ArrayList<Product> prolist = dao1.queryByName("西服");
-		for(Product temp:prolist){
+		product.setName("xyz");
+		productdao.save(product);
+		List<Product> prolist=productdao.queryByName("");
+		for(Product temp : prolist) {
 			System.out.println(temp);
+		}
+		System.out.println(productdao.getById(3));
+		
 		}
 		// dao1.delete(product);
 
 	}
-}
+

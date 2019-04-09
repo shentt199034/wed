@@ -2,7 +2,7 @@ package cn.hw.oa.service;
 //业务逻辑层（JAVA类），以后添加购物车的业务逻辑层
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 import cn.hw.oa.dao.Productdao;
 import model.Product;
@@ -22,7 +22,7 @@ public class Productservice {
 	public Product getById (int id) {
 		return productdao.getById(id);
 	}
-	public ArrayList<Product> queryByName(String name) {
+	public List<Product> queryByName(String name) {
 		return productdao.queryByName(name);
 	}
  
