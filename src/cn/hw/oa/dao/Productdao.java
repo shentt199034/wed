@@ -1,10 +1,8 @@
 package cn.hw.oa.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -12,6 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import model.Category;
 import model.Product;
 
 
@@ -23,8 +22,8 @@ public class Productdao{
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	public void save(Product product) {
-		String sql="insert into product(name,price,remark) value(?,?,?)";
-		jdbcTemplate.update(sql,  new Object[] {product.getName(),product.getPrice(),product.getRemark() });
+		String sql="insert into product(name,price,remark,cid) value(?,?,?,?)";
+		jdbcTemplate.update(sql,  new Object[] {product.getName(),product.getPrice(),product.getRemark(),product.getCategory().getCid() });
 	
 	}
 
@@ -47,7 +46,7 @@ public class Productdao{
 
 	}
 	public List<Product> queryByName(String name) {
-		String sql="select * from product where name like ?";
+		String sql="select * from product p join category c on p.cid=c.cid where p.name like ?";
         return jdbcTemplate.query(sql,new Object[] {"%"+name+"%"}, new RowMapper<Product>() {
 
 			@Override
@@ -58,6 +57,10 @@ public class Productdao{
 				product.setPrice(rs.getDouble("price"));
 				product.setRemark(rs.getString("remark"));
 				product.setDate(rs.getDate("date"));
+				Category category=new Category();
+				category.setCid(rs.getInt("cid"));
+				category.setCname(rs.getString("cname"));
+				product.setCategory(category);
 				return product;
 			}
         	
@@ -82,13 +85,19 @@ public class Productdao{
 		Productdao productdao = context.getBean("pd", Productdao.class);
 		// 项目中所有的model不需要交给spring管理,因为这些值是从前端传入,而且是多例模式
 		Product product = new Product();
-		product.setName("xyz");
+
+		product.setName("iphone8");
+		product.setPrice(7000);
+		product.setRemark("插入商品时测试类别CID");
+		Category category = new Category();
+		category.setCid(2);
+		product.setCategory(category);
 		productdao.save(product);
 		List<Product> prolist=productdao.queryByName("");
-		for(Product temp : prolist) {
+	    for(Product temp : prolist) {
 			System.out.println(temp);
 		}
-		System.out.println(productdao.getById(3));
+//		System.out.println(productdao.getById(3));
 		
 		}
 		// dao1.delete(product);

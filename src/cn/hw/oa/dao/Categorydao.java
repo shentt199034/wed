@@ -25,7 +25,7 @@ public class Categorydao{
 	}
 	public void save(Category category) {
 		String sql="insert into category(name) value(?)";
-		jdbcTemplate.update(sql,  new Object[] {category.getName()});
+		jdbcTemplate.update(sql,  new Object[] {category.getCname()});
 	
 	}
 	public Category getById(int id) {
@@ -36,8 +36,8 @@ public class Categorydao{
 			public Category mapRow(ResultSet rs, int arg1) throws SQLException {
 				// TODO Auto-generated method stub
 				Category category  = new Category();
-				category.setId(rs.getInt("id"));
-				category.setName(rs.getString("name"));
+				category.setCid(rs.getInt("id"));
+				category.setCname(rs.getString("name"));
 				return category;
 			}
 			});
@@ -50,8 +50,8 @@ public class Categorydao{
 			@Override
 			public Category mapRow(ResultSet rs, int arg1) throws SQLException {
 				Category category  = new Category();
-				category .setId(rs.getInt("id"));
-				category .setName(rs.getString("name"));
+				category .setCid(rs.getInt("id"));
+				category .setCname(rs.getString("name"));
 				return category;
 			}
         	
@@ -64,7 +64,7 @@ public class Categorydao{
 	}
 	public void update(Category category) {
 		String sql="update category set name=? where id=?";
-		jdbcTemplate.update(sql,  new Object[] {category.getName(),category.getId() });
+		jdbcTemplate.update(sql,  new Object[] {category.getCname(),category.getCid() });
 	}
 }
 

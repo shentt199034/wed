@@ -20,6 +20,7 @@ private String name;
 private double  price;
 private String remark;
 private Date date;
+private Category category;
 public String getName() {
 	return name;
 }
@@ -38,9 +39,17 @@ public String getRemark() {
 public void setRemark(String remark) {
 	this.remark = remark;
 }
+
+public Category getCategory() {
+	return category;
+}
+public void setCategory(Category category) {
+	this.category = category;
+}
 @Override
 public String toString() {
-	return "Product [id=" + id + ", name=" + name + ", price=" + price + ", remark=" + remark + ", date=" + date + "]";
+	return "Product [id=" + id + ", name=" + name + ", price=" + price + ", remark=" + remark + ", date=" + date
+			+ ", category=" + category + "]";
 }
 
 }

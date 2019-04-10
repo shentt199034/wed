@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import cn.hw.oa.dao.Productdao;
+import model.Category;
 import model.Product;
 
 public class Productservice {
@@ -37,13 +38,18 @@ public class Productservice {
 		Productservice productservice = context.getBean("ps", Productservice.class);
 		// 项目中所有的model不需要交给spring管理,因为这些值是从前端传入,而且是多例模式
 		Product product = new Product();
-		product.setName("xyz");
+		product.setName("iphone8");
+		product.setPrice(7000);
+		product.setRemark("插入商品时测试类别CID");
+		Category category = new Category();
+		category.setCid(2);
+		product.setCategory(category);
 		productservice.save(product);
 		List<Product> prolist=productservice.queryByName("");
-		for(Product temp : prolist) {
+	    for(Product temp : prolist) {
 			System.out.println(temp);
+		}
 		}
 		
 		}
  
-	}
