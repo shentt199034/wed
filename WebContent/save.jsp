@@ -16,10 +16,14 @@
 	   
 	   提交表单时 button的按钮属性值为: type="submit"        
 	-->
-	<form action="${pageContext.request.contextPath}/ProductServlet" method="POST">
+	<form action="${pageContext.request.contextPath}/product/save.mvc" method="POST">
 		商品名称:<input type="text" name="name" /><br />
 		商品价格:<input type="text" name="price" /><br />
 		详细介绍:<textarea name="remark" rows="3" cols="50"></textarea><br />
+		所属类别:<select name="category.cid">
+					<option value="1">家用电器</option>
+					<option value="2">男士休闲</option>
+			   </select>
 		<button type="submit">提交</button>
 		<!-- 多个jsp页面提交到了一个Servlet,因此需要通过隐藏域来区分 -->
 		<input type="hidden" name="type" value="save" />

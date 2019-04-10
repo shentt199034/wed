@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+	<!-- web.xml就是项目的启动文件,tomcat会先加载此文件，此文件通常会配置一些启动时执行的代码 -->
+	<servlet>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<!-- servlet通常用来处理前端请求,此servlet事项过滤的功能 ,和加载springmvc的配置文件-->
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<!-- 此名称在源码中已经制定 -->
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-*.xml</param-value>
+		</init-param>
+		<!-- 数值越小优先级越高 -->
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<!-- 配置当前servlet处理什么类型的请求, *.css,*.js *.png应该被过滤掉  -->
+	<servlet-mapping>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<!-- 以后仅仅处理*.mvc结尾的请求 -->
+		<url-pattern>*.mvc</url-pattern>
+	</servlet-mapping>
+	
+	
+
+
+</web-app>
