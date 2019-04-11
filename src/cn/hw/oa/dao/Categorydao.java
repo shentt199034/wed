@@ -24,34 +24,34 @@ public class Categorydao{
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	public void save(Category category) {
-		String sql="insert into category(name) value(?)";
+		String sql="insert into category(cname) value(?)";
 		jdbcTemplate.update(sql,  new Object[] {category.getCname()});
 	
 	}
 	public Category getById(int id) {
-		String sql="select * from category where id = ?";
+		String sql="select * from category where cid = ?";
 		return jdbcTemplate.queryForObject(sql, new Object[] {id}, new RowMapper<Category >() {
 
 			@Override
 			public Category mapRow(ResultSet rs, int arg1) throws SQLException {
 				// TODO Auto-generated method stub
 				Category category  = new Category();
-				category.setCid(rs.getInt("id"));
-				category.setCname(rs.getString("name"));
+				category.setCid(rs.getInt("cid"));
+				category.setCname(rs.getString("cname"));
 				return category;
 			}
 			});
 
 	}
 	public List<Category> queryByName(String name) {
-		String sql="select * from category where name like ?";
+		String sql="select * from category where cname like ?";
         return jdbcTemplate.query(sql,new Object[] {"%"+name+"%"}, new RowMapper<Category>() {
 
 			@Override
 			public Category mapRow(ResultSet rs, int arg1) throws SQLException {
 				Category category  = new Category();
-				category .setCid(rs.getInt("id"));
-				category .setCname(rs.getString("name"));
+				category .setCid(rs.getInt("cid"));
+				category .setCname(rs.getString("cname"));
 				return category;
 			}
         	
@@ -59,11 +59,11 @@ public class Categorydao{
 	}
 
 	public void delete(int id) {
-	String sql="delete from category where id = ?";
+	String sql="delete from category where cid = ?";
 	jdbcTemplate.update(sql, new Object[] {id});
 	}
 	public void update(Category category) {
-		String sql="update category set name=? where id=?";
+		String sql="update category set cname=? where cid=?";
 		jdbcTemplate.update(sql,  new Object[] {category.getCname(),category.getCid() });
 	}
 }

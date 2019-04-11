@@ -45,8 +45,8 @@ public class Productservice {
 		category.setCid(2);
 		product.setCategory(category);
 		productservice.save(product);
-		List<Product> prolist=productservice.queryByName("");
-	    for(Product temp : prolist) {
+		List<Product> proList=productservice.queryByName("");
+	    for(Product temp : proList) {
 			System.out.println(temp);
 		}
 		}

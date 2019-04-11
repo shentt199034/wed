@@ -10,19 +10,17 @@
 $(function(){
 	$('.btnDel').click(function(){
 		  var pid=$(this).attr('lang')
-		  $.get('/wed/Productservlet',{type:'delete',pid:pid})
+		  $.get('${pageContext.request.contextPath}/product/delete.mvc',{pid:pid})
 		  $(this).parents("tr:first").remove()
 })
   })
 </script>
 </head>
 <body>
-          <form action="${pageContext.request.contextPath}/Productservlet " method="get"> 
-          给我搜：<input type="text" name="keyword" />
-          <button type="submit" >提交 </button>    
-            <input type="hidden" name="type" value ="query"/> 
+          <form action="${pageContext.request.contextPath}/product/query.mvc" method="get"> 
+          给我搜：<input type="text" name="keyword" /> <button type="submit" >提交 </button>    
           </form>  
-        <c:if test="${not empty requestScope.arraylist}">
+        <c:if test="${not empty requestScope.proList}">
           <h3>下面是查询结果</h3>
           <table border="1" width="600px">
           <tr>
@@ -32,14 +30,15 @@ $(function(){
             <th>备注</th>
             <th>操作</th>
             </tr> 
-            <c:forEach items="${requestScope.arraylist}" var="p" varStatus="num">
+            <c:forEach items="${requestScope.proList}" var="p" varStatus="num">
             <tr>
             <td>${num.count}</td>
             <td>${p.name }</td>
             <td>${p.price }</td>
             <td>${p.remark }</td>
+            <td>${p.category.cname }</td>
             <td><button type="button" class="btnDel" lang="${p.id}">ajax删除</button>|
-                <a href="${pageContext.request.contextPath}/Productservlet?type=getById&id=${p.id}">先查询在更新</a>
+                <a href="${pageContext.request.contextPath}//product/getById.mvc?id=${p.id}">先查询在更新</a>
             </td>
             </tr> 
             </c:forEach>

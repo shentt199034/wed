@@ -6,12 +6,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-      <form action="${pageContext.request.contextPath}/Productservlet" method="post">
+      <form action="${pageContext.request.contextPath}/product/update.mvc" method="post">
                               商品名称：<input type="text" name="name"  value="${requestScope.product.name}"/><br />
                               商品价格：<input type="password" name="price"  value="${requestScope.product.price}" /><br />
                               详细介绍：<textarea name="remark" rows="3" cols="50">${requestScope.product.remark}</textarea><br />
          <button type="submit" >提交 </button>
-         <input type="hidden" name="type" value ="update"/>
          <input type="hidden" name="id" value ="${requestScope.product.id}"/>
        
     </form>  
