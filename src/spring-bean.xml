@@ -27,4 +27,6 @@ http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
 	<bean id="cs" class="cn.hw.oa.service.Categoryservice">
 		<property name="Categorydao" ref="cd" />
 	</bean>
+	<bean id="ot" class="cn.hw.oa.service.OrderItemService" />
+	<bean id="or" class="cn.hw.oa.service.OrderService" />
 </beans>

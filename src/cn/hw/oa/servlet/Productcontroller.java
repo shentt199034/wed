@@ -28,6 +28,13 @@ public class Productcontroller {
 	public void delete(int pid) {
 		productService.delete(pid);
 	}
+	@RequestMapping("/detail")
+	public String detail(int id) {
+		Product product = productService.getById(id);
+		// 把数据存放到request对象中
+		request.setAttribute("product", product);
+		return "forward:/detail.jsp";
+	}
 	@RequestMapping("/getById")
 	public String getById (int id) {
 		Product product = productService.getById(id);	

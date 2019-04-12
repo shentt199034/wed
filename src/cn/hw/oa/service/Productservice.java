@@ -12,6 +12,11 @@ import model.Product;
 public class Productservice {
 //执行完业务逻辑才调用数据访问层入库
 	private Productdao productdao=null;
+
+	public List<Product> queryByCid(int cid) {
+		return productdao.queryByCid(cid);
+	}
+
 	public void setProductdao(Productdao productdao) {
 		this.productdao = productdao;
 	}

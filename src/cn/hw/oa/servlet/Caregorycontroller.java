@@ -3,15 +3,12 @@ package cn.hw.oa.servlet;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.hw.oa.service.Categoryservice;
 import model.Category;
-import model.Product;
 @RequestMapping("/category")
 @Controller
 public class Caregorycontroller {

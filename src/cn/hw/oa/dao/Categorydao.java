@@ -1,19 +1,13 @@
 package cn.hw.oa.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import model.Category;
-import model.Product;
 
 
 public class Categorydao{
@@ -56,6 +50,22 @@ public class Categorydao{
 			}
         	
         });
+	}
+	public List<Category> queryHot(boolean isHot) {
+		String sql = "select * from category where chot = ?";
+		return jdbcTemplate.query(sql, new Object[] { isHot }, new RowMapper<Category>() {
+
+			@Override
+			public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Category category = new Category();
+				// // 则说明查询结果有记录,应该创建一个对象来保存当前记录
+				category.setCid(rs.getInt("cid"));
+				category.setCname(rs.getString("cname"));
+				category.setChot(rs.getBoolean("chot"));
+				return category;
+			}
+
+		});
 	}
 
 	public void delete(int id) {
